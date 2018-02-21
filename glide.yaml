@@ -1,0 +1,6 @@
+package: github.com/hIMEI29A/goranger
+import:
+- package: github.com/antchfx/htmlquery
+- package: golang.org/x/net
+  subpackages:
+  - html

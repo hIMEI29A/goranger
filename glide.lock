@@ -1,0 +1,32 @@
+hash: 32003b25effefb27e573d1ba2c3d02c3e4776f4b84dfecd6a0e0a1b084f4fd5f
+updated: 2018-02-21T14:50:38.95894297-05:00
+imports:
+- name: github.com/antchfx/htmlquery
+  version: 9f7717ac9bac5f660391c57e3d496b3c7cf9741f
+- name: github.com/antchfx/xpath
+  version: 58d12fe685d684ed55aab3b988394652025e36dc
+- name: golang.org/x/net
+  version: d866cfc389cec985d6fda2859936a575a55a3ab6
+  subpackages:
+  - html
+  - html/atom
+  - html/charset
+- name: golang.org/x/text
+  version: eb22672bea55af56d225d4e35405f4d2e9f062a0
+  subpackages:
+  - encoding
+  - encoding/charmap
+  - encoding/htmlindex
+  - encoding/internal
+  - encoding/internal/identifier
+  - encoding/japanese
+  - encoding/korean
+  - encoding/simplifiedchinese
+  - encoding/traditionalchinese
+  - encoding/unicode
+  - internal/tag
+  - internal/utf8internal
+  - language
+  - runes
+  - transform
+testImports: []
