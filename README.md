@@ -26,6 +26,16 @@ It is Golang port of deprecated PHP script [getIpByIsp](https://github.com/hIMEI
 
 ##### As application
 
+With `dpkg`
+
+    wget https://github.com/hIMEI29A/goranger/releases/download/0.1.0/\
+    goranger-0.1.0-amd64.deb && sudo dpkg -i goranger-0.1.0-amd64.deb
+
+With `gdebi`
+
+    wget https://github.com/hIMEI29A/goranger/releases/download/0.1.0/\
+    gichidan-1.1.1-amd64.deb && sudo gdebi goranger-0.1.0-amd64.deb
+
 Check the [release page](https://github.com/hIMEI29A/goranger/releases)!
 
 ##### As package
