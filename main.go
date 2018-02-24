@@ -49,19 +49,6 @@ func wrongArg() {
 	errFatal(err)
 }
 
-func validateCountry(ccode string) bool {
-	valid := false
-
-	for i := range libgoranger.CountryCodes {
-		if ccode == libgoranger.CountryCodes[i] {
-			valid = true
-			break
-		}
-	}
-
-	return valid
-}
-
 // ToFile saves results to given file.
 func toFile(filepath string, ranges []string) {
 	dir := path.Dir(filepath)
@@ -107,14 +94,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	if *typeFlag == libgoranger.ReqType[1] && validateCountry(*requestFlag) != true {
+	if *typeFlag == libgoranger.ReqType[1] && libgoranger.ValidateCountry(*requestFlag) != true {
 		wrongArg()
 	}
 
-	g, err := libgoranger.NewGoranger(*typeFlag)
-	errFatal(err)
+	g := libgoranger.NewGoranger()
 
-	ranges, err := g.GetRange(*requestFlag)
+	ranges, err := g.GetRange(*typeFlag, *requestFlag)
 	errFatal(err)
 
 	for i := range ranges {

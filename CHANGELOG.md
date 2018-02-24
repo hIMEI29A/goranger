@@ -1,5 +1,20 @@
 # Changelog - goranger
 
+### 0.2.1
+
+__Changes__
+
+- Many changes invisible to user
+- errors in install command fixed
+
+__Contributors__
+
+- hIMEI
+
+Released by hIMEI, Sat 24 Feb 2018 -
+[see the diff](https://github.com/hIMEI29A/goranger/compare/0.1.1...0.2.1#diff)
+______________
+
 ### 0.1.1
 
 __Changes__
@@ -7,6 +22,7 @@ __Changes__
 - Some errors handling added
 
   README.md corrected
+- README.md full
 
 __Contributors__
 

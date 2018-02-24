@@ -32,6 +32,7 @@ const (
 	ISP     = "https://suip.biz/?act=ipintpr"
 )
 
+// PRE is a <pre> HTML tag
 const PRE = "//pre"
 
 // CountryCodes is a two-letter country codes
@@ -68,51 +69,82 @@ var ReqType = []string{
 	"isp",
 }
 
+// ApiEndPoints is a slice of string constants representing API endpoints
+var ApiEndPoints = []string{
+	CITY,
+	COUNTRY,
+	ISP,
+}
+
 // GetTag gets inner value of html tag
 func getTag(node *html.Node, tagexp string) string {
 	return htmlquery.InnerText(htmlquery.FindOne(node, tagexp))
 }
 
+// ValidateCountry checks if given country code is correct
+func ValidateCountry(ccode string) bool {
+	valid := false
+
+	for i := range CountryCodes {
+		if ccode == CountryCodes[i] {
+			valid = true
+			break
+		}
+	}
+
+	return valid
+}
+
 // Goranger is a main package's data type. EndPoint field may be one of the endpoint constants
 type Goranger struct {
-	EndPoint string
+	EndPoint []string
 }
 
 // NewGoranger creates Goranger's instance
-func NewGoranger(reqType string) (*Goranger, error) {
-	var ttype string
+func NewGoranger() *Goranger {
 	goranger := &Goranger{}
+	goranger.EndPoint = ApiEndPoints
+
+	return goranger
+}
+
+// SetEndPoint sets API endpoint by given request type
+func (g *Goranger) SetEndPoint(reqType string) (string, error) {
+	var point string
 
 	switch {
 	case reqType == ReqType[0]:
-		ttype = CITY
+		point = g.EndPoint[0]
 
 	case reqType == ReqType[1]:
-		ttype = COUNTRY
+		point = g.EndPoint[1]
 
 	case reqType == ReqType[2]:
-		ttype = ISP
+		point = g.EndPoint[2]
 
 	default:
 		errString := "Wrong request's type"
 		err := errors.New(errString)
 
-		return nil, err
+		return "", err
 	}
 
-	goranger.EndPoint = ttype
-
-	return goranger, nil
+	return point, nil
 }
 
 // GetData makes POST request to site and returns response's body as *html.Node
-func (g *Goranger) getData(req string) (*html.Node, error) {
+func (g *Goranger) getData(reqType, req string) (*html.Node, error) {
 	reqForm := url.Values{
 		"url":    {req},
 		"action": {"Submit"},
 	}
 
-	response, err := http.PostForm(g.EndPoint, reqForm)
+	point, err := g.SetEndPoint(reqType)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := http.PostForm(point, reqForm)
 	if err != nil {
 		errString := "Network connection's error"
 		newErr := errors.New(errString)
@@ -134,8 +166,8 @@ func (g *Goranger) getData(req string) (*html.Node, error) {
 
 // GetRange is a main package's method. It uses getData() to make request, parses
 // <pre> tag's content and returns it as []string
-func (g *Goranger) GetRange(req string) ([]string, error) {
-	node, err := g.getData(req)
+func (g *Goranger) GetRange(reqType, req string) ([]string, error) {
+	node, err := g.getData(reqType, req)
 	if err != nil {
 		return nil, err
 	}
