@@ -111,9 +111,11 @@ func main() {
 		wrongArg()
 	}
 
-	g := libgoranger.NewGoranger(*typeFlag)
+	g, err := libgoranger.NewGoranger(*typeFlag)
+	errFatal(err)
 
-	ranges := g.GetRange(*requestFlag)
+	ranges, err := g.GetRange(*requestFlag)
+	errFatal(err)
 
 	for i := range ranges {
 		fmt.Println(ranges[i])
