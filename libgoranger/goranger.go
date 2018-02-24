@@ -79,7 +79,7 @@ type Goranger struct {
 }
 
 // NewGoranger creates Goranger's instance
-func NewGoranger(reqType string) *Goranger {
+func NewGoranger(reqType string) (*Goranger, error) {
 	var ttype string
 	goranger := &Goranger{}
 
@@ -94,18 +94,19 @@ func NewGoranger(reqType string) *Goranger {
 		ttype = ISP
 
 	default:
-		errString := "Wrong request type"
+		errString := "Wrong request's type"
 		err := errors.New(errString)
-		panic(err)
+
+		return nil, err
 	}
 
 	goranger.EndPoint = ttype
 
-	return goranger
+	return goranger, nil
 }
 
 // GetData makes POST request to site and returns response's body as *html.Node
-func (g *Goranger) getData(req string) *html.Node {
+func (g *Goranger) getData(req string) (*html.Node, error) {
 	reqForm := url.Values{
 		"url":    {req},
 		"action": {"Submit"},
@@ -113,7 +114,9 @@ func (g *Goranger) getData(req string) *html.Node {
 
 	response, err := http.PostForm(g.EndPoint, reqForm)
 	if err != nil {
-		panic(err)
+		errString := "Network connection's error"
+		newErr := errors.New(errString)
+		return nil, newErr
 	}
 
 	defer response.Body.Close()
@@ -121,18 +124,24 @@ func (g *Goranger) getData(req string) *html.Node {
 	body := bufio.NewReader(response.Body)
 	node, err := htmlquery.Parse(body)
 	if err != nil {
-		panic(err)
+		errString := "HTML parsing error"
+		newErr := errors.New(errString)
+		return nil, newErr
 	}
 
-	return node
+	return node, nil
 }
 
 // GetRange is a main package's method. It uses getData() to make request, parses
 // <pre> tag's content and returns it as []string
-func (g *Goranger) GetRange(req string) []string {
-	node := g.getData(req)
+func (g *Goranger) GetRange(req string) ([]string, error) {
+	node, err := g.getData(req)
+	if err != nil {
+		return nil, err
+	}
+
 	ipRange := getTag(node, PRE)
 	ipSplitted := strings.Split(ipRange, "\n")
 
-	return ipSplitted
+	return ipSplitted, nil
 }

@@ -67,13 +67,13 @@ To get all IP ranges of **London** and save it to **file.txt**
 To get all IP ranges of **Beeline** ISP
 
 ```shell
-./goranger -t isp -r beeline.ru
+./goranger -t isp -r 217.118.85.19
 ```
 
-or
+To get all IP ranges of ISP of **kremlin.ru**
 
 ```shell
-./goranger -t isp -r 217.118.85.19
+./goranger -t isp -r kremlin.ru
 ```
 
 **Warning!!!** In case of request by city, write the name of the city **carefully and accurately**, as much as possible. If an error occurs in the name, the search on the uncleaned database is activated, and the result includes **ALL** IP ranges from **all** possible variants. To get the most accurate result, the city name **must not contain errors**.
