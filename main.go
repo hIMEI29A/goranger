@@ -84,7 +84,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if len(os.Args) < 1 {
+	if len(os.Args) == 1 {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
